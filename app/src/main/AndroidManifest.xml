@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.example.kgu.parrot">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.STORAGE" />
+
+    <!--android:icon="@mipmap/ic_launcher"-->
+    <!--android:roundIcon="@mipmap/ic_launcher_round"-->
+    <application
+            android:allowBackup="true"
+            android:icon="@mipmap/parrot"
+            android:label="@string/app_name"
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme">
+        <activity
+                android:name=".ParrotListActivity"
+                android:label="@string/app_name"
+                android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+                android:name=".ParrotDetailActivity"
+                android:label="@string/title_item_detail"
+                android:parentActivityName=".ParrotListActivity"
+                android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.example.kgu.parrot.ParrotListActivity"/>
+        </activity>
+    </application>
+
+</manifest>

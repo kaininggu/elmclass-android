@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">parrot</string>
+    <string name="title_item_detail">Item Detail</string>
+    <string name="start_recording">Start recording</string>
+    <string name="stop_recording">Stop recording</string>
+    <string name="start_playing">Start playing</string>
+    <string name="stop_playing">Stop playing</string>
+</resources>
