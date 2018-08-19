@@ -1,0 +1,174 @@
+FORMAT: 1A
+HOST: http://polls.apiblueprint.org/
+
+# parrot
+
+Polls is a simple API allowing consumers to view polls and vote in them.
+
+## Verify [/v1/elmbay]
+
+### Ping [GET]
+
+  + Response 200 (application/json)
+
+  + Headers
+
+  + Body
+
+    {
+        "Ping": {
+            "endpoint": "/v1/elmbay/ping"
+        }
+    }
+
+
+## Users [/v1/elmbay/users]
+
+### Sign Up [POST]
+
+  + Request (application/json)
+
+    {
+        "SignInRequest": {
+            "u": "someone@some.com",
+            "t": "E",
+            "p": "1234",
+            "new": true
+        }
+    }
+
+  + Response 201 (application/json)
+  + Headers
+  + Body
+
+    {
+        "token" : "USER01",
+        "hour" : 2,
+        "mark" : {
+            "csid" : 1,
+            "cid" : 0,
+            "lid" : 0
+        }
+    }
+
+## Lessons [/v1/elmbay/courses]
+
+### List Chapters in a Course [POST]
+
+  + Response 200 (application/json)
+
+  + Headers
+
+  + Body
+
+    {
+        "mark" : {
+            "csid": 1,
+            "cid" : 0,
+            "lid" : 0
+        },
+        "hour" : 1,
+        "course" : {
+            "id" : 1,
+            "name" : "English 101",
+            "chapters" : [
+            {
+                "id": 1,
+                "topic": "Kids",
+                "lessons": [
+                    {
+                        "id": 1,
+                        "key": "Change Channel",
+                        "audio": {
+                            "t": "audio/*",
+                            "url": "change_channel_01_ad"
+                        },
+                        "note": {
+                            "t": "image/*",
+                            "url": "change_channel_01_tx"
+                        },
+                        "video": {
+                            "t": "video/mp4",
+                            "url": "change_channel_01_vd"
+                        }
+                    },
+                    {
+                        "id": 2,
+                        "key": "Juicy",
+                        "note": {
+                            "t": "image/*",
+                            "url": "juicy_02_tx"
+                        },
+                        "audio": {
+                            "t": "audio/*",
+                            "url": "juicy_02_ad"
+                        },
+                        "video": {
+                            "t": "video/mp4",
+                            "url": "juicy_02_vd"
+                        }
+                    },
+                    {
+                        "id": 3,
+                        "key": "literally",
+                        "note": {
+                            "t": "image/*",
+                            "url": "literally_03_tx"
+                        },
+                        "audio": {
+                            "t": "audio/*",
+                            "url": "literally_03_ad"
+                        },
+                        "video": {
+                            "t": "video/mp4",
+                            "url": "literally_03_vd"
+                        }
+                    }
+                ]
+            },
+            {
+                "id": 2,
+                "topic": "Nature",
+                "lessons": [
+                    {
+                        "id": 1,
+                        "key": "Blue Sea",
+                        "video": {
+                            "t": "video/mp4",
+                            "url": "http://abhiandroid-8fb4.kxcdn.com/ui/wp-content/uploads/2016/04/videoviewtestingvideo.mp4"
+                        }
+                    }
+                ]
+            },
+            {
+                "id": 3,
+                "topic": "Business"
+            }
+            ]
+        }
+    }
+
+## chapters [/v1/elmbay/chapters]
+
+### Get Chapter Details [GET]
+
++ Response 200 (application/json)
+    + Headers
+    + Body
+
+            {
+                "id": 3,
+                "topic": "Business",
+                "lessons": [
+                    {
+                        "id": 1,
+                        "key": "Venice",
+                        "video": {
+                            "t": "video/mp4",
+                            "url": "ppcash"
+                        }
+                    }
+                ]
+            }
+
+
