@@ -1,9 +1,11 @@
 package com.example.elmclass.manager;
 
+import com.example.elmclass.BuildConfig;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -16,6 +18,9 @@ import android.view.inputmethod.InputMethodManager;
 
 public class AppManager {
     public static final String PACKAGE_NAME = "com.example.elmclass";
+    public static final int VERSION_CODE = BuildConfig.VERSION_CODE;
+    public static final String VERSION_NAME = BuildConfig.VERSION_NAME;
+
     public static final boolean DEBUG = true;
     private static final boolean MOCK = false;
 
@@ -43,17 +48,6 @@ public class AppManager {
     public @NonNull SessionData getSessionData() { return mSessionData; }
 
     public @NonNull String getAppName() { return mAppContext.getPackageName(); }
-
-    public String getAppVersion() {
-        try {
-            return mAppContext.getPackageManager().getPackageInfo(getAppName(), 0).versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            if (AppManager.DEBUG) {
-                Log.w(LOG_TAG, "Missing android:versionName entry in AndroidManifest.xml");
-            }
-            return null;
-        }
-    }
 
     private AppManager(@NonNull Context context) {
         mAppContext = context.getApplicationContext();

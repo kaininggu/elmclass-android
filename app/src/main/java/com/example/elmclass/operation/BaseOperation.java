@@ -38,7 +38,9 @@ public abstract class BaseOperation {
         StringRequest request = new StringRequest(method, url, onResult(), onError()) {
             @Override
             protected Map<String, String> getParams() {
-                return mRequest.getParams();
+                Map<String, String> params = mRequest.getParams();
+                params.put("ver", AppManager.VERSION_NAME);
+                return params;
             }
         };
         if (AppManager.DEBUG) {
