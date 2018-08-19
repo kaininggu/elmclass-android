@@ -1,4 +1,4 @@
-package com.example.elmclass.activity;
+package com.elmclass.elmclass.activity;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,11 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.example.elmclass.R;
-import com.example.elmclass.fragment.SignInFragment;
-import com.example.elmclass.manager.AppManager;
-import com.example.elmclass.manager.NetworkManager;
-import com.example.elmclass.manager.UserManager;
+import com.elmclass.elmclass.R;
+import com.elmclass.elmclass.fragment.SignInFragment;
+import com.elmclass.elmclass.manager.AppManager;
+import com.elmclass.elmclass.manager.NetworkManager;
+import com.elmclass.elmclass.manager.UserManager;
 
 /**
  *

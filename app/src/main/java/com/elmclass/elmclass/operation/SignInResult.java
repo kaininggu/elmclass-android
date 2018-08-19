@@ -1,6 +1,6 @@
-package com.example.elmclass.operation;
+package com.elmclass.elmclass.operation;
 
-import com.example.elmclass.manager.NetworkManager;
+import com.elmclass.elmclass.manager.NetworkManager;
 import com.google.gson.annotations.SerializedName;
 
 /**

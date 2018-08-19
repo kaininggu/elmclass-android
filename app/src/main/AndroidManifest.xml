@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.example.elmclass">
+          package="com.elmclass.elmclass">
 
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -19,7 +19,7 @@
             android:value="true" />
 
         <activity
-            android:name="com.example.elmclass.activity.SignInActivity">
+            android:name="com.elmclass.elmclass.activity.SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -27,7 +27,7 @@
         </activity>
 
         <activity
-            android:name="com.example.elmclass.activity.WebViewActivity">
+            android:name="com.elmclass.elmclass.activity.WebViewActivity">
         </activity>
     </application>
 

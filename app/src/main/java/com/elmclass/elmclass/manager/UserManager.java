@@ -1,13 +1,14 @@
-package com.example.elmclass.manager;
+package com.elmclass.elmclass.manager;
 
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.example.elmclass.operation.SignInResult;
+import com.elmclass.elmclass.operation.SignInResult;
 
-import static com.example.elmclass.manager.PersistenceManager.KEY_UID;
-import static com.example.elmclass.manager.PersistenceManager.KEY_USER_TOKEN;
+import static com.elmclass.elmclass.manager.PersistenceManager.KEY_UID;
+import static com.elmclass.elmclass.manager.PersistenceManager.KEY_USER_TOKEN;
+
 
 /**
  *

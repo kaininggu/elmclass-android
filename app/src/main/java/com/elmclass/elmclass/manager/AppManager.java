@@ -1,14 +1,12 @@
-package com.example.elmclass.manager;
+package com.elmclass.elmclass.manager;
 
-import com.example.elmclass.BuildConfig;
 import android.app.Activity;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+
+import com.elmclass.elmclass.BuildConfig;
 
 /**
  * Singleton holds a sesson cache

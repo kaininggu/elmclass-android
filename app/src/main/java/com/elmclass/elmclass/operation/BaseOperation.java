@@ -1,4 +1,4 @@
-package com.example.elmclass.operation;
+package com.elmclass.elmclass.operation;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -6,8 +6,8 @@ import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
-import com.example.elmclass.manager.AppManager;
-import com.example.elmclass.manager.NetworkManager;
+import com.elmclass.elmclass.manager.AppManager;
+import com.elmclass.elmclass.manager.NetworkManager;
 
 import java.util.Map;
 

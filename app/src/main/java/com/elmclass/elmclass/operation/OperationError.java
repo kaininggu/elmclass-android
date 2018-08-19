@@ -1,10 +1,10 @@
-package com.example.elmclass.operation;
+package com.elmclass.elmclass.operation;
 
 import android.support.annotation.Nullable;
 
 import com.android.volley.VolleyError;
-import com.example.elmclass.R;
-import com.example.elmclass.manager.NetworkManager;
+import com.elmclass.elmclass.R;
+import com.elmclass.elmclass.manager.NetworkManager;
 
 /**
  *

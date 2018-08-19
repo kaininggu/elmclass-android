@@ -1,4 +1,4 @@
-package com.example.elmclass.manager;
+package com.elmclass.elmclass.manager;
 
 import android.Manifest;
 import android.content.Context;

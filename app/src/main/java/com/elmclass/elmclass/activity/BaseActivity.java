@@ -1,4 +1,4 @@
-package com.example.elmclass.activity;
+package com.elmclass.elmclass.activity;
 
 import android.support.v7.app.AppCompatActivity;
 

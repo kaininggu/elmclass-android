@@ -1,4 +1,4 @@
-package com.example.elmclass.activity;
+package com.elmclass.elmclass.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,12 +7,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
-import com.example.elmclass.R;
-import com.example.elmclass.fragment.WebViewFragment;
-import com.example.elmclass.manager.AppManager;
-import com.example.elmclass.manager.NetworkManager;
+import com.elmclass.elmclass.R;
+import com.elmclass.elmclass.fragment.WebViewFragment;
+import com.elmclass.elmclass.manager.AppManager;
 
-import static com.example.elmclass.manager.NetworkManager.URL_KEY;
+import static com.elmclass.elmclass.manager.NetworkManager.URL_KEY;
 
 /**
  *

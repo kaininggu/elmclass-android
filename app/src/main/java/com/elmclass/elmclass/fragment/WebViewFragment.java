@@ -1,4 +1,4 @@
-package com.example.elmclass.fragment;
+package com.elmclass.elmclass.fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -21,10 +21,10 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
-import com.example.elmclass.R;
-import com.example.elmclass.activity.WebViewActivity;
-import com.example.elmclass.manager.AppManager;
-import com.example.elmclass.manager.NetworkManager;
+import com.elmclass.elmclass.R;
+import com.elmclass.elmclass.activity.WebViewActivity;
+import com.elmclass.elmclass.manager.AppManager;
+import com.elmclass.elmclass.manager.NetworkManager;
 
 /**
  *

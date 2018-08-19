@@ -1,4 +1,4 @@
-package com.example.elmclass;
+package com.elmclass.elmclass;
 
 import org.junit.Test;
 

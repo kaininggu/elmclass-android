@@ -1,4 +1,4 @@
-package com.example.elmclass.fragment;
+package com.elmclass.elmclass.fragment;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -23,21 +23,21 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.elmclass.R;
-import com.example.elmclass.activity.SignInActivity;
-import com.example.elmclass.manager.AppManager;
-import com.example.elmclass.manager.NetworkManager;
-import com.example.elmclass.manager.UserManager;
-import com.example.elmclass.operation.SignInOperation;
-import com.example.elmclass.operation.SignInRequest;
-import com.example.elmclass.operation.SignInResponseEvent;
+import com.elmclass.elmclass.R;
+import com.elmclass.elmclass.activity.SignInActivity;
+import com.elmclass.elmclass.manager.AppManager;
+import com.elmclass.elmclass.manager.NetworkManager;
+import com.elmclass.elmclass.manager.UserManager;
+import com.elmclass.elmclass.operation.SignInOperation;
+import com.elmclass.elmclass.operation.SignInRequest;
+import com.elmclass.elmclass.operation.SignInResponseEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import static android.text.InputType.TYPE_CLASS_PHONE;
-import static com.example.elmclass.activity.SignInActivity.REQUEST_SEND_SMS;
+import static com.elmclass.elmclass.activity.SignInActivity.REQUEST_SEND_SMS;
 
 /**
  * The class manages the sign in page
