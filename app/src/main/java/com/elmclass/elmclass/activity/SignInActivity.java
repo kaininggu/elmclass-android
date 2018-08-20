@@ -74,7 +74,7 @@ public class SignInActivity extends AppCompatActivity {
 
     public void navigateToWebView(String url) {
         Intent intent = new Intent(this, WebViewActivity.class);
-        intent.putExtra(NetworkManager.URL_KEY, url);
+        intent.putExtra(NetworkManager.KEY_URL, url);
         startActivity(intent);
 
         // Don't come back to this activity anymore

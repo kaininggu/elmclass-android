@@ -5,20 +5,21 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.elmclass.elmclass.R;
 import com.elmclass.elmclass.fragment.WebViewFragment;
 import com.elmclass.elmclass.manager.AppManager;
 
-import static com.elmclass.elmclass.manager.NetworkManager.URL_KEY;
+import static com.elmclass.elmclass.manager.NetworkManager.KEY_URL;
 
 /**
  *
  * Created by kgu on 5/18/18.
  */
 
-public class WebViewActivity extends BaseActivity {
+public class WebViewActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,10 +43,10 @@ public class WebViewActivity extends BaseActivity {
         if (savedInstanceState == null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             Fragment f = new WebViewFragment();
-            String url = getIntent().getStringExtra(URL_KEY);
+            String url = getIntent().getStringExtra(KEY_URL);
             if (url != null) {
                 Bundle bundle = new Bundle();
-                bundle.putString(URL_KEY, url);
+                bundle.putString(KEY_URL, url);
                 f.setArguments(bundle);
             }
             ft.add(R.id.activity_frame, f);

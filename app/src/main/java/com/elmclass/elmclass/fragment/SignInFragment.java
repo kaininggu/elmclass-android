@@ -3,6 +3,7 @@ package com.elmclass.elmclass.fragment;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,6 +21,7 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -79,8 +81,9 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
                 if (TextUtils.isEmpty(s)) {
                     enableButton(mSendCodeButton, false);
                     enableButton(mSignInButton, false);
-                } else if (s.length() >= 9){
+                } else if (s.length() >= 10){
                     enableButton(mSendCodeButton, true);
+                    mUidView.setSelection(s.length());
                 }
             }
 
@@ -89,6 +92,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
         });
 
         mCodeView = top.findViewById(R.id.code);
+        mCodeView.setInputType(TYPE_CLASS_PHONE);
         mCodeView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -121,6 +125,10 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
         mSignInContainer = top.findViewById(R.id.signin_container);
         mSpinner = top.findViewById(R.id.spinner);
 
+        mUid = AppManager.getInstance().getSessionData().getUserManager().getUid();
+        if (!TextUtils.isEmpty(mUid)) {
+            mUidView.setText(mUid);
+        }
         return top;
     }
 
@@ -198,6 +206,8 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
                 mUid = TextUtils.isEmpty(mUidView.getText()) ? null : mUidView.getText().toString();
                 smsManager.sendTextMessage(mUid, null, message, pendingIntent, null);
                 mCodeView.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(mCodeView, InputMethodManager.SHOW_IMPLICIT);
             } catch (RuntimeException ex) {
                 showDialog(R.string.sms_failure);
                 if (AppManager.DEBUG) {

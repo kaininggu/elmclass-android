@@ -15,14 +15,9 @@ import com.elmclass.elmclass.BuildConfig;
  */
 
 public class AppManager {
-    public static final String PACKAGE_NAME = "com.example.elmclass";
-    public static final int VERSION_CODE = BuildConfig.VERSION_CODE;
     public static final String VERSION_NAME = BuildConfig.VERSION_NAME;
 
     public static final boolean DEBUG = true;
-    private static final boolean MOCK = false;
-
-    private static final String LOG_TAG = AppManager.class.getName();
     private static AppManager sInstance;
 
     private Context mAppContext;
@@ -44,8 +39,6 @@ public class AppManager {
     public @NonNull Context getAppContext() { return mAppContext; }
 
     public @NonNull SessionData getSessionData() { return mSessionData; }
-
-    public @NonNull String getAppName() { return mAppContext.getPackageName(); }
 
     private AppManager(@NonNull Context context) {
         mAppContext = context.getApplicationContext();

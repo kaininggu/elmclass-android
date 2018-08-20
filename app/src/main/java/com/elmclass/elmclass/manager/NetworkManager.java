@@ -29,14 +29,13 @@ public class NetworkManager {
     private static final String LOG_TAG = NetworkManager.class.getName();
 
     // urls
-    public static final String URL_KEY = "url";
     public static final String BASE_URL = "http://www.elmclass.com/v2/";
     public static final String ENDPOINT_USERS = NetworkManager.BASE_URL + "elm/signup";
     public static final String ENDPOINT_ASSIGNMENT = NetworkManager.BASE_URL + "elm/daily";
     public static final String ENDPOINT_SETTING = NetworkManager.BASE_URL + "elm/setup";
     public static final String ENDPOINT_HELP = NetworkManager.BASE_URL + "elm/help";
     public static final String ENDPOINT_LOGIN = NetworkManager.BASE_URL + "elm/login";
-
+    public static final String KEY_URL = "url";
 
     private static NetworkManager sInstance;
     private Context mAppContext;

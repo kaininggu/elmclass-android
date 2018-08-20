@@ -47,7 +47,7 @@ public class WebViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View top = inflater.inflate(R.layout.fragment_webview, container, false);
 
-        mUrl = getArguments().getString(NetworkManager.URL_KEY);
+        mUrl = getArguments().getString(NetworkManager.KEY_URL);
         if (!TextUtils.isEmpty(mUrl)) {
             mSpinner = top.findViewById(R.id.spinner);
             mSpinner.setVisibility(View.VISIBLE);
