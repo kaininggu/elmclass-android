@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Introduce sub-menu to enable both icon and title in menu items -->
+    <item
+        android:id="@+id/a_More"
+        android:icon="@drawable/ic_more_vert_white_24dp"
+        android:title=""
+        app:showAsAction="always|withText">
+        <menu>
+            <item
+                android:id="@+id/menu_item_assignment"
+                android:icon="@drawable/ic_assignment_black_24dp"
+                android:title="@string/assignment"/>
+            <item
+                android:id="@+id/menu_item_settings"
+                android:icon="@drawable/ic_settings_black_24dp"
+                android:title="@string/settings"/>
+            <item
+                android:id="@+id/menu_item_log_out"
+                android:icon="@drawable/ic_account_box_black_24dp"
+                android:title="@string/log_out"/>
+            <item
+                android:id="@+id/menu_item_help"
+                android:icon="@drawable/ic_help_outline_black_24dp"
+                android:title="@string/help" />
+        </menu>
+    </item>
+</menu>

@@ -1,0 +1,47 @@
+<resources>
+    <!-- manifest -->
+    <string name="app_name">ElmClass</string>
+
+    <!-- common -->
+    <string name="unknown_error">Something went wrong.</string>
+    <string name="yes">Yes</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="try_again">Try again</string>
+
+    <!-- options menu -->
+    <string name="assignment">New Lesson</string>
+    <string name="settings">Settings</string>
+    <string name="log_out">Switch User</string>
+    <string name="help">Help</string>
+    <string name="confirm_log_out">Are you sure to log out?</string>
+
+    <!-- sign in -->
+    <string name="sign_up_title">New User Sign Up</string>
+    <string name="sign_up_link">New user? Click here to sign up</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="log_in_title">Existing User Log In</string>
+    <string name="log_in_link">Existing user? Click here to log in</string>
+    <string name="log_in">Log In</string>
+    <string name="uid_hint">Enter phone number</string>
+    <string name="enter_code">Enter verification code</string>
+    <string name="send_code">Request verification code</string>
+    <string name="password">Enter password</string>
+    <string name="forgot_password">Forgot password？</string>
+    <string name="invalid_code">Invalid verification code</string>
+    <string name="invalid_uid">Please enter a valid phone number</string>
+    <string name="sms_code">ElmClass: %d</string>
+    <string name="sms_reminder">Please check your text message for a verification code.</string>
+    <string name="sms_failure">Unable to send text message. Please verify the phone number.</string>
+
+    <!-- network -->
+    <string name="http_404">Server is temporarily unavailable</string>
+    <string name="json_exception">System error: Invalid data format</string>
+    <string name="empty_response">System error: Empty response</string>
+    <string name="rc_101">System error: Wrong request</string>
+    <string name="rc_107">Phone number has been taken by an existing user</string>
+    <string name="rc_109">Password mismatch</string>
+
+    <!-- webview -->
+    <string name="webview_on_error">"Error on loading web page."</string>
+</resources>

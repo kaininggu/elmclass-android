@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        layout="@layout/spinner"/>
+
+    <LinearLayout
+        android:id="@+id/signin_container"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_horizontal"
+            android:text="@string/log_in_title"
+            android:fontFamily="sans-serif-black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/sign_up"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/sign_up_link"
+            android:textColor="@color/colorPrimaryBold"/>
+
+            <EditText
+                android:id="@+id/uid"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:singleLine="true"
+                android:inputType="phone"
+                android:hint="@string/uid_hint"
+                style="@style/Widget.AppCompat.EditText"/>
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="16dp"
+                android:inputType="textPassword"
+                android:singleLine="true"
+                android:hint="@string/password"
+                style="@style/Widget.AppCompat.EditText"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/forgot_password"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="@string/forgot_password"
+                android:textColor="@color/colorPrimaryBold"/>
+
+        <Button
+            android:id="@+id/log_in"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:background="@drawable/oval_button"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:text="@string/log_in"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+</RelativeLayout>

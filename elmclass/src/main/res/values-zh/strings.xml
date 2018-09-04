@@ -1,0 +1,51 @@
+<resources>
+    <!-- manifest -->
+    <string name="app_name">榆树课堂</string>
+
+    <!-- common -->
+    <string name="unknown_error">出错.</string>
+    <string name="yes">确定</string>
+    <string name="cancel">取消</string>
+    <string name="ok">确定</string>
+    <string name="allow">允许</string>
+    <string name="deny">拒绝</string>
+    <string name="try_again">重试</string>
+
+    <!-- options menu -->
+    <string name="assignment">新课</string>
+    <string name="settings">设置</string>
+    <string name="log_out">重新登录</string>
+    <string name="help">求助</string>
+    <string name="confirm_log_out">确定退出登录吗?</string>
+
+    <!-- sign in -->
+    <string name="sign_up_title">新用户注册</string>
+    <string name="sign_up_link">新用户? 点击此处注册</string>
+    <string name="sign_up">注册</string>
+    <string name="log_in_title">用户登录</string>
+    <string name="log_in_link">已有帐号? 点击此处登录</string>
+    <string name="log_in">登录</string>
+    <string name="phone_permit">%s请求授权读手机号，以便识别用户。</string>
+    <string name="uid_hint">输入手机号码</string>
+    <string name="enter_code">输入短信验证码</string>
+    <string name="send_code">申请短信验证码</string>
+    <string name="invalid_code">验证码错误</string>
+    <string name="password">输入密码</string>
+    <string name="forgot_password">忘记密码了？</string>
+    <string name="invalid_uid">请输入有效电话</string>
+    <string name="sms_code">榆树课堂: %d</string>
+    <string name="sms_reminder">验证码已发送到手机短信</string>
+    <string name="sms_failure">无法送短信，请检查电话号码</string>
+
+    <!-- network -->
+    <string name="http_404">无法找到服务器</string>
+    <string name="json_exception">系统响应数据格式错误</string>
+    <string name="empty_response">系统响应错误</string>
+    <string name="rc_101">系统参数错误</string>
+    <string name="rc_107">手机号码已占用</string>
+    <string name="rc_109">密码不匹配</string>
+
+    <!-- webview -->
+    <string name="webview_on_error">"页面访问出错."</string>
+
+</resources>

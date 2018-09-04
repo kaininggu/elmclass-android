@@ -15,16 +15,17 @@ com_crashlytics_export_strings.xml
 .ruby-version
 captures
 /libs
+elmclass/src/main/res/raw/keystore.pkcs12
+elmclass/src/main/res/raw/ca.crt
 
 #Cucumber files
-app/src/cucumber/Logs/log*.txt
-app/src/cucumber/Screenshots/*.png
-app/src/cucumber/temp/**
-app/src/cucumber/execute_intents.sh
+elmclass/src/cucumber/Logs/log*.txt
+elmclass/src/cucumber/Screenshots/*.png
+elmclass/src/cucumber/temp/**
+elmclass/src/cucumber/execute_intents.sh
 deviceinfo.json
 .bundle
 
-
 #Appium
-app/src/cucumber/features/support/appium.txt
-app/src/cucumber/features/support/appium_override.txt
+elmclass/src/cucumber/features/support/appium.txt
+elmclass/src/cucumber/features/support/appium_override.txt
