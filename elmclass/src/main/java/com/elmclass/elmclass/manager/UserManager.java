@@ -16,6 +16,7 @@ import static com.elmclass.elmclass.manager.PersistenceManager.KEY_USER_TOKEN;
  */
 
 public class UserManager {
+    public static int MIN_UID_LENGTH = 10;
 
     private SharedPreferences mPersistenceStore;
     private String mUid;

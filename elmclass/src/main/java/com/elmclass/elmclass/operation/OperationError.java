@@ -12,18 +12,16 @@ import com.elmclass.elmclass.manager.NetworkManager;
  */
 
 public class OperationError {
-    public static final int RC_EMPTY_RESPONSE = 1;
-    public static final int RC_JSON_EXCEPTION = 2;
+    static final int RC_EMPTY_RESPONSE = 1;
+    static final int RC_JSON_EXCEPTION = 2;
 
-    private int mHttpStatusCode;
     private int mMessageId;
     private String mMessage;
 
     OperationError(@Nullable VolleyError error) {
         if (error != null) {
             if (error.networkResponse != null) {
-                mHttpStatusCode = error.networkResponse.statusCode;
-                mapErrorCode(mHttpStatusCode, "");
+                mapErrorCode(error.networkResponse.statusCode, "");
             }
         }
         if (mMessageId == 0) {

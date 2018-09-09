@@ -1,5 +1,6 @@
 package com.elmclass.elmclass.manager;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -16,6 +17,9 @@ import com.elmclass.elmclass.BuildConfig;
 
 public class AppManager {
     public static final String VERSION_NAME = BuildConfig.VERSION_NAME;
+    public static final int PERMISSION_REQUEST_SEND_SMS = 1;
+    public static final int PERMISSION_REQUEST_READ_PHONE_NUMBER = 2;
+    public static final int PERMISSIONS_REQUEST_RECORD_AUDIO = 3;
 
     public static final boolean DEBUG = true;
     private static AppManager sInstance;
@@ -31,9 +35,22 @@ public class AppManager {
 
     public static @NonNull AppManager getInstance() { return sInstance; }
 
-    public static void hideKeyboardFrom(Context context, View view) {
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    public static void showKeyboard(Activity activity, View hostView) {
+        try {
+            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(hostView, InputMethodManager.SHOW_IMPLICIT);
+        } catch (java.lang.NullPointerException ex) {
+            //Ignore
+        }
+    }
+
+    public static void hideKeyboard(Context context, View view) {
+        try {
+            InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        } catch (NullPointerException ex) {
+            // ignore
+        }
     }
 
     public @NonNull Context getAppContext() { return mAppContext; }

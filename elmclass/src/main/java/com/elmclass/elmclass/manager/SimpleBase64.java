@@ -3,7 +3,8 @@ package com.elmclass.elmclass.manager;
 import java.io.ByteArrayOutputStream;
 
 /**
- * Created by kaininggu on 8/26/18.
+ *
+ * Copied on 8/26/18.
  */
 
 public class SimpleBase64

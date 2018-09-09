@@ -66,7 +66,7 @@ public class LogInFragment extends Fragment implements View.OnClickListener {
             // have just replaced old text that had length before.
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (TextUtils.isEmpty(s) || s.length() < 10) {
+                if (TextUtils.isEmpty(s) || s.length() < UserManager.MIN_UID_LENGTH) {
                     enableUidView();
                 } else {
                     enablePasswordView();
@@ -88,7 +88,7 @@ public class LogInFragment extends Fragment implements View.OnClickListener {
                 if (TextUtils.isEmpty(s)) {
                     enableButton(mLogInButton, false);
                 } else {
-                    enableLogInButton();
+                    enableButton(mLogInButton, true);
                 }
             }
 
@@ -152,11 +152,15 @@ public class LogInFragment extends Fragment implements View.OnClickListener {
                 logIn();
                 break;
             case R.id.forgot_password:
-                ((SignInActivity)getActivity()).navigateToWebView(NetworkManager.ENDPOINT_FORGOT_PASSWORD);
+                if (getActivity() != null) {
+                    ((SignInActivity) getActivity()).navigateToWebView(NetworkManager.ENDPOINT_FORGOT_PASSWORD);
+                }
                 break;
             case R.id.sign_up:
                 mUid = TextUtils.isEmpty(mUidView.getText()) ? null : mUidView.getText().toString();
-                ((SignInActivity)getActivity()).navigateToSignUp(mUid);
+                if (getActivity() != null) {
+                    ((SignInActivity) getActivity()).navigateToSignUp(mUid);
+                }
                 break;
         }
     }
@@ -165,7 +169,9 @@ public class LogInFragment extends Fragment implements View.OnClickListener {
     public void onEvent(SignInResponseEvent event) {
         mSpinner.setVisibility(View.GONE);
         if (event == null || !event.hasError()) {
-            ((SignInActivity) getActivity()).navigateToWebView(AppManager.getInstance().getSessionData().getUserManager().getUrl());
+            if (getActivity() != null) {
+                ((SignInActivity) getActivity()).navigateToWebView(AppManager.getInstance().getSessionData().getUserManager().getUrl());
+            }
         } else {
             mSignInContainer.setVisibility(View.VISIBLE);
             showDialog(event.getError().getMessageId(), event.getError().getMessage());
@@ -173,7 +179,7 @@ public class LogInFragment extends Fragment implements View.OnClickListener {
     }
 
     private void logIn() {
-        AppManager.hideKeyboardFrom(getContext(), mSignInContainer);
+        AppManager.hideKeyboard(getContext(), mSignInContainer);
         mSignInContainer.setVisibility(View.GONE);
         mSpinner.setVisibility(View.VISIBLE);
 
@@ -190,24 +196,14 @@ public class LogInFragment extends Fragment implements View.OnClickListener {
     }
 
     private void enableUidView() {
-        mUidView.setVisibility(View.VISIBLE);
         mUidView.setEnabled(true);
         mPasswordView.setVisibility(View.GONE);
-        mPasswordView.setText("");
         mLogInButton.setVisibility(View.GONE);
     }
 
     private void enablePasswordView() {
-        mUidView.setVisibility(View.VISIBLE);
         mPasswordView.setVisibility(View.VISIBLE);
-        mPasswordView.requestFocus();
-        mLogInButton.setVisibility(View.GONE);
-    }
-
-    private void enableLogInButton() {
-        mUidView.setVisibility(View.VISIBLE);
-        mPasswordView.setVisibility(View.VISIBLE);
-        enableButton(mLogInButton, true);
+        mLogInButton.setVisibility(TextUtils.isEmpty(mPasswordView.getText()) ? View.GONE : View.VISIBLE);
     }
 
     private void enableButton(Button button, Boolean enabled) {
@@ -230,11 +226,11 @@ public class LogInFragment extends Fragment implements View.OnClickListener {
 
             builder.setPositiveButton(R.string.try_again, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    enableLogInButton();
+                    enableButton(mLogInButton, true);
                 }
             });
             mDialog = builder.create();
-        } else {
+        } else if (getContext() != null){
             mDialog.setMessage(getContext().getString(stringId));
         }
         mDialog.show();

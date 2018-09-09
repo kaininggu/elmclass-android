@@ -26,8 +26,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManagerFactory;
 
-import static java.security.KeyStore.getDefaultType;
-
 /**
  * The class manages all network operations
  *
@@ -39,8 +37,9 @@ public class NetworkManager {
     private static final String LOG_TAG = NetworkManager.class.getName();
 
     // urls
-    public static final String BASE_URL = "http://www.elmclass.com/v2/";
+    static final String BASE_URL = "http://www.elmclass.com/v2/";
     public static final String ENDPOINT_USERS = NetworkManager.BASE_URL + "elm/signup";
+//    public static final String ENDPOINT_ASSIGNMENT = "https://jbergknoff.github.io/guitar-tuner/";
     public static final String ENDPOINT_ASSIGNMENT = NetworkManager.BASE_URL + "elm/daily";
     public static final String ENDPOINT_SETTING = NetworkManager.BASE_URL + "elm/setup";
     public static final String ENDPOINT_HELP = NetworkManager.BASE_URL + "elm/help";
@@ -140,8 +139,7 @@ public class NetworkManager {
             SSLContext context = SSLContext.getInstance("TLS");
             context.init(null, tmf.getTrustManagers(), null);
 
-            SSLSocketFactory sf = context.getSocketFactory();
-            return sf;
+            return context.getSocketFactory();
         } catch (Exception e) {
             throw new AssertionError(e);
         }

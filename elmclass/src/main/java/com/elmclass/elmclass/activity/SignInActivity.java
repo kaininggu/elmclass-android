@@ -21,6 +21,8 @@ import com.elmclass.elmclass.manager.AppManager;
 import com.elmclass.elmclass.manager.NetworkManager;
 import com.elmclass.elmclass.manager.UserManager;
 
+import static com.elmclass.elmclass.manager.AppManager.PERMISSION_REQUEST_READ_PHONE_NUMBER;
+
 /**
  *
  * Created by kgu on 4/16/18.
@@ -28,12 +30,9 @@ import com.elmclass.elmclass.manager.UserManager;
 
 public class SignInActivity extends AppCompatActivity {
     private static final String LOG_TAG = SignInActivity.class.getName();
-    private static String [] PERMISSIONS = { Manifest.permission.READ_PHONE_STATE };
-    private static final boolean allow_read_phone_number_from_device = false;
-
-    public static final int REQUEST_SEND_SMS_PERMISSION = 1;
-    public static final int REQUEST_SEND_SMS = 2;
-    public static final int REQUEST_READ_PHONE_NUMBERS_PERMISSION = 3;
+    // requires SDK version 26 support Manifest.permission.READ_PHONE_NUMBERS
+    private static String [] PERMISSIONS = { Manifest.permission.READ_PHONE_NUMBERS };
+    private static final boolean attempt_read_phone_number_from_device = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +57,8 @@ public class SignInActivity extends AppCompatActivity {
                 }
             } else if (!TextUtils.isEmpty(userManager.getUid())) {
                 navigateToLogIn(userManager.getUid());
-            } else if (allow_read_phone_number_from_device) {
-                ActivityCompat.requestPermissions(this, PERMISSIONS, SignInActivity.REQUEST_READ_PHONE_NUMBERS_PERMISSION);
+            } else if (attempt_read_phone_number_from_device) {
+                ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_REQUEST_READ_PHONE_NUMBER);
             } else {
                 navigateToSignUp(userManager.getUid());
             }
@@ -73,18 +72,8 @@ public class SignInActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        Fragment f;
         switch(requestCode) {
-            case REQUEST_SEND_SMS_PERMISSION:
-                if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    finish();
-                }
-                f = getSupportFragmentManager().findFragmentById(R.id.activity_frame);
-                if (f != null) {
-                    f.onRequestPermissionsResult(requestCode, permissions, grantResults);
-                }
-                break;
-            case REQUEST_READ_PHONE_NUMBERS_PERMISSION:
+            case PERMISSION_REQUEST_READ_PHONE_NUMBER:
                 UserManager userManager = AppManager.getInstance().getSessionData().getUserManager();
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
@@ -92,7 +81,13 @@ public class SignInActivity extends AppCompatActivity {
                         String mPhoneNumber = tMgr.getLine1Number();
                         userManager.setUid(mPhoneNumber);
                     } catch (SecurityException ex) {
-                        // continue
+                        if (AppManager.DEBUG) {
+                            Log.d(LOG_TAG, "Security exception when get phone number: " + ex.getMessage());
+                        }
+                    } catch (NullPointerException ex) {
+                        if (AppManager.DEBUG) {
+                            Log.d(LOG_TAG, "NullPointer exception when get phone number: " + ex.getMessage());
+                        }
                     }
                 }
                 navigateToSignUp(userManager.getUid());

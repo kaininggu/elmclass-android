@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.elmclass.elmclass.R;
 import com.elmclass.elmclass.manager.AppManager;
 import com.elmclass.elmclass.manager.NetworkManager;
 import com.google.gson.JsonParseException;

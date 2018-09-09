@@ -60,7 +60,7 @@ public abstract class BaseOperation {
 
     void logError(OperationError error, String message) {
         if (AppManager.DEBUG) {
-            Log.w(LOG_TAG, "Response " + mRequestId + ": Error " + message + ": " + error == null ? "" : error.toString());
+            Log.w(LOG_TAG, "Response " + mRequestId + ": Error " + message + ": " + error.toString());
         }
     }
 }

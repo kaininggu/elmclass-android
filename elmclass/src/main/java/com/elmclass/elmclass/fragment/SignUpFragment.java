@@ -3,7 +3,6 @@ package com.elmclass.elmclass.fragment;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,7 +10,6 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.telephony.SmsManager;
 import android.text.Editable;
@@ -22,7 +20,6 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -40,7 +37,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import static android.text.InputType.TYPE_CLASS_PHONE;
-import static com.elmclass.elmclass.activity.SignInActivity.REQUEST_SEND_SMS;
+import static com.elmclass.elmclass.manager.AppManager.showKeyboard;
+import static com.elmclass.elmclass.manager.UserManager.MIN_UID_LENGTH;
 
 /**
  * The class manages the sign in page
@@ -82,7 +80,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
             // have just replaced old text that had length before.
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (TextUtils.isEmpty(s) || s.length() < 10) {
+                if (TextUtils.isEmpty(s) || s.length() < MIN_UID_LENGTH) {
                     enableUidView();
                 } else {
                     enableSendCodeButton();
@@ -170,7 +168,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.send_code:
-                ActivityCompat.requestPermissions(getActivity(), PERMISSIONS, SignInActivity.REQUEST_SEND_SMS_PERMISSION);
+                requestPermissions(PERMISSIONS, AppManager.PERMISSION_REQUEST_SEND_SMS);
                 break;
             case R.id.sign_up:
                 if (validateCode()) {
@@ -179,7 +177,9 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.log_in:
                 mUid = TextUtils.isEmpty(mUidView.getText()) ? null : mUidView.getText().toString();
-                ((SignInActivity)getActivity()).navigateToLogIn(mUid);
+                if (getActivity() != null) {
+                    ((SignInActivity) getActivity()).navigateToLogIn(mUid);
+                }
                 break;
         }
     }
@@ -188,7 +188,9 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     public void onEvent(SignInResponseEvent event) {
         mSpinner.setVisibility(View.GONE);
         if (event == null || !event.hasError()) {
-            ((SignInActivity) getActivity()).navigateToWebView(AppManager.getInstance().getSessionData().getUserManager().getUrl());
+            if (getActivity() != null) {
+                ((SignInActivity) getActivity()).navigateToWebView(AppManager.getInstance().getSessionData().getUserManager().getUrl());
+            }
         } else {
             mSignInContainer.setVisibility(View.VISIBLE);
             showDialog(event.getError().getMessageId(), event.getError().getMessage());
@@ -199,12 +201,12 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if (requestCode == SignInActivity.REQUEST_SEND_SMS_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == AppManager.PERMISSION_REQUEST_SEND_SMS && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             mCodeSent = 1000 + (int) (System.currentTimeMillis() % 997);
-            String message = getContext().getString(R.string.sms_code, mCodeSent);
+            String message = getContext() == null ? String.valueOf(mCodeSent) : getContext().getString(R.string.sms_code, mCodeSent);
 
             SmsManager smsManager = SmsManager.getDefault();
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), REQUEST_SEND_SMS, new Intent("SMS_SENT"), 0);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, new Intent("SMS_SENT"), 0);
             if (AppManager.DEBUG) {
                 Log.i(LOG_TAG, "sendTextMessage " + mUid + ": " + message);
             }
@@ -212,7 +214,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                 mUid = TextUtils.isEmpty(mUidView.getText()) ? null : mUidView.getText().toString();
                 smsManager.sendTextMessage(mUid, null, message, pendingIntent, null);
 //                showDialog(R.string.sms_reminder);
-                enableCodeView();
+                enableEnterCodeView();
             } catch (RuntimeException ex) {
                 showDialog(R.string.sms_failure);
                 if (AppManager.DEBUG) {
@@ -234,7 +236,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     }
 
     private void signUp() {
-        AppManager.hideKeyboardFrom(getContext(), mSignInContainer);
+        AppManager.hideKeyboard(getContext(), mSignInContainer);
         mSignInContainer.setVisibility(View.GONE);
         mSpinner.setVisibility(View.VISIBLE);
 
@@ -248,34 +250,27 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     }
 
     private void enableUidView() {
-        mUidView.setVisibility(View.VISIBLE);
         mUidView.setEnabled(true);
         mSendCodeButton.setVisibility(View.GONE);
         mCodeView.setVisibility(View.GONE);
-        mCodeView.setText("");
         mSignInButton.setVisibility(View.GONE);
     }
 
     private void enableSendCodeButton() {
-        mUidView.setVisibility(View.VISIBLE);
         enableButton(mSendCodeButton, true);
         mCodeView.setVisibility(View.GONE);
         mSignInButton.setVisibility(View.GONE);
     }
 
-    private void enableCodeView() {
-        mUidView.setVisibility(View.VISIBLE);
-//        enableButton(mSendCodeButton, false);
+    private void enableEnterCodeView() {
         mSendCodeButton.setVisibility(View.GONE);
         mCodeView.setVisibility(View.VISIBLE);
         mCodeView.requestFocus();
         mSignInButton.setVisibility(View.GONE);
-        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(mCodeView, InputMethodManager.SHOW_IMPLICIT);
+        showKeyboard(getActivity(), mCodeView);
     }
 
     private void enableSignInButton() {
-        mUidView.setVisibility(View.VISIBLE);
         enableButton(mSendCodeButton, false);
         mCodeView.setVisibility(View.VISIBLE);
         enableButton(mSignInButton, true);
@@ -310,7 +305,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                         }
                     });
             mDialog = builder.create();
-        } else {
+        } else if (getContext() != null){
             mDialog.setMessage(getContext().getString(stringId));
         }
         mDialog.show();

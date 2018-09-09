@@ -20,7 +20,6 @@ import static com.elmclass.elmclass.manager.NetworkManager.KEY_URL;
  */
 
 public class WebViewActivity extends AppCompatActivity {
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
