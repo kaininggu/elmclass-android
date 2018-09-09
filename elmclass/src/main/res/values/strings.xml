@@ -31,7 +31,7 @@
     <string name="invalid_code">Invalid verification code</string>
     <string name="invalid_uid">Please enter a valid phone number</string>
     <string name="sms_code">ElmClass: %d</string>
-    <string name="sms_reminder">Please check your text message for a verification code.</string>
+    <string name="sms_reminder">Please wait and check text message for verification code.</string>
     <string name="sms_failure">Unable to send text message. Please verify the phone number.</string>
 
     <!-- network -->

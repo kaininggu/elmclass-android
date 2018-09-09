@@ -34,7 +34,7 @@
     <string name="forgot_password">忘记密码了？</string>
     <string name="invalid_uid">请输入有效电话</string>
     <string name="sms_code">榆树课堂: %d</string>
-    <string name="sms_reminder">验证码已发送到手机短信</string>
+    <string name="sms_reminder">请稍候短信验证码</string>
     <string name="sms_failure">无法送短信，请检查电话号码</string>
 
     <!-- network -->

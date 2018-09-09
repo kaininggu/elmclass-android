@@ -165,6 +165,7 @@ public class LogInFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    @SuppressWarnings("unused")
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(SignInResponseEvent event) {
         mSpinner.setVisibility(View.GONE);

@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.elmclass.elmclass.R;
 import com.elmclass.elmclass.activity.SignInActivity;
@@ -184,6 +185,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    @SuppressWarnings("unused")
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(SignInResponseEvent event) {
         mSpinner.setVisibility(View.GONE);
@@ -213,7 +215,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
             try {
                 mUid = TextUtils.isEmpty(mUidView.getText()) ? null : mUidView.getText().toString();
                 smsManager.sendTextMessage(mUid, null, message, pendingIntent, null);
-//                showDialog(R.string.sms_reminder);
+                Toast.makeText(getContext(), R.string.sms_reminder, Toast.LENGTH_SHORT).show();
                 enableEnterCodeView();
             } catch (RuntimeException ex) {
                 showDialog(R.string.sms_failure);
@@ -288,7 +290,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         showDialog(stringId, null);
     }
 
-    private void showDialog(int stringId, String message) {
+    private void showDialog(final int stringId, String message) {
         if (mDialog == null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), android.R.style.Theme_Material_Light_Dialog));
 
@@ -300,8 +302,15 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 
             builder.setPositiveButton(R.string.try_again, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            mCodeView.setText("");
-                            enableSendCodeButton();
+                            if (stringId == R.string.rc_107) {
+                                // If a known uid, redirect to login page.
+                                if (getActivity() != null) {
+                                    ((SignInActivity) getActivity()).navigateToLogIn(mUid);
+                                }
+                            } else {
+                                mCodeView.setText("");
+                                enableSendCodeButton();
+                            }
                         }
                     });
             mDialog = builder.create();

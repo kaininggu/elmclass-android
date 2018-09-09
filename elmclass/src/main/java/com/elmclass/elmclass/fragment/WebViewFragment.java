@@ -21,6 +21,7 @@ import android.webkit.PermissionRequest;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
@@ -29,6 +30,7 @@ import com.elmclass.elmclass.R;
 import com.elmclass.elmclass.activity.WebViewActivity;
 import com.elmclass.elmclass.manager.AppManager;
 import com.elmclass.elmclass.manager.NetworkManager;
+import com.elmclass.elmclass.manager.WebAppInterface;
 
 import static com.elmclass.elmclass.manager.AppManager.PERMISSIONS_REQUEST_RECORD_AUDIO;
 
@@ -90,7 +92,7 @@ public class WebViewFragment extends Fragment {
                 navigateToWebView(NetworkManager.ENDPOINT_SETTING);
                 return true;
             case R.id.menu_item_log_out:
-                showConfirmationDialog();
+                showLogOutConfirmationDialog();
                 return true;
             case R.id.menu_item_help:
                 navigateToWebView(NetworkManager.ENDPOINT_HELP);
@@ -111,14 +113,28 @@ public class WebViewFragment extends Fragment {
     }
 
     private void setWebView() {
+        WebSettings settings = mWebView.getSettings();
+
         // Enable cookie by not clearCache nor clearHistory
 
         // enable JavaScript
-        mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        settings.setJavaScriptEnabled(true);
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
 
         // enable pinch zoom
-        mWebView.getSettings().setBuiltInZoomControls(true);
+        settings.setBuiltInZoomControls(true);
+
+        settings.setAllowContentAccess(true);
+        settings.setAllowFileAccess(true);
+
+        // enable JavaScript callbacks from html web pages. For example,
+        // <input type="button" value="Say hello" onClick="showAndroidToast('Hello Android!')" />
+        // <script type="text/javascript">
+        //    function showAndroidToast(toast) {
+        //        ElmClassApp.invokeAppMethod("showToast", toast);
+        //    }
+        // </script>
+        mWebView.addJavascriptInterface(new WebAppInterface(this.getContext(), this), "ElmClassApp");
 
         // App crashes upon back button if we don't set WebViewClient
         mWebView.setWebViewClient(new WebViewClient() {
@@ -163,20 +179,24 @@ public class WebViewFragment extends Fragment {
         });
     }
 
+    public void relogin() {
+        if (getActivity() != null) {
+            ((WebViewActivity) getActivity()).doLogOut();
+        }
+    }
+
     private void setCookie() {
         String cookieString = "E06=" + AppManager.getInstance().getSessionData().getUserManager().getUserToken() + "; path=/";
         CookieManager.getInstance().setCookie(mUrl, cookieString);
     }
 
-    private void showConfirmationDialog() {
+    private void showLogOutConfirmationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), android.R.style.Theme_Material_Light_Dialog));
 
         builder.setMessage(R.string.confirm_log_out)
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        if (getActivity() != null) {
-                            ((WebViewActivity) getActivity()).doLogOut();
-                        }
+                        relogin();
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
