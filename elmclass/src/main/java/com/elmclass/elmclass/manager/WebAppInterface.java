@@ -53,7 +53,7 @@ public class WebAppInterface {
 
     @SuppressWarnings("unused")
     @JavascriptInterface
-    public void reLogIn(String placeHolder) {
+    public void relogin(String placeHolder) {
         mFragment.relogin();
     }
 }
