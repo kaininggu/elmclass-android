@@ -37,6 +37,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.Random;
+
 import static android.text.InputType.TYPE_CLASS_PHONE;
 import static com.elmclass.elmclass.manager.AppManager.showKeyboard;
 import static com.elmclass.elmclass.manager.UserManager.MIN_UID_LENGTH;
@@ -50,6 +52,10 @@ import static com.elmclass.elmclass.manager.UserManager.MIN_UID_LENGTH;
 public class SignUpFragment extends Fragment implements View.OnClickListener {
     private static String [] PERMISSIONS = { Manifest.permission.SEND_SMS };
     private static int CODE_LENGTH = 4;
+    private static final int STATE_ENTER_UID = 1;
+    private static final int STATE_SEND_CODE = 2;
+    private static final int STATE_ENTER_CODE = 3;
+    private static final int STATE_SIGN_IN = 4;
     private static final String LOG_TAG = SignUpFragment.class.getName();
 
     private View mSignInContainer;
@@ -61,15 +67,14 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     private int mCodeSent;
     private View mSpinner;
     private AlertDialog mDialog;
+    private int mState;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View top = inflater.inflate(R.layout.fragment_sign_up, container, false);
 
         Bundle args = getArguments();
-        if (args != null) {
-            mUid = args.getString("u");
-        }
+        mUid = args == null ? "" : args.getString("u");
 
         mUidView = top.findViewById(R.id.uid);
         mUidView.setInputType(TYPE_CLASS_PHONE);
@@ -82,10 +87,9 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (TextUtils.isEmpty(s) || s.length() < MIN_UID_LENGTH) {
-                    enableUidView();
+                    enableEnterUidView();
                 } else {
                     enableSendCodeButton();
-                    mUidView.setSelection(s.length());
                 }
             }
 
@@ -169,7 +173,14 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.send_code:
-                requestPermissions(PERMISSIONS, AppManager.PERMISSION_REQUEST_SEND_SMS);
+                mUid = UserManager.parsePhoneNumber(mUidView.getText().toString());
+                if (mUid != null) {
+                    mUidView.setText(mUid);
+                    requestPermissions(PERMISSIONS, AppManager.PERMISSION_REQUEST_SEND_SMS);
+                } else {
+                    Toast.makeText(getContext(), R.string.invalid_uid, Toast.LENGTH_SHORT).show();
+                    enableEnterUidView();
+                }
                 break;
             case R.id.sign_up:
                 if (validateCode()) {
@@ -177,7 +188,6 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
             case R.id.log_in:
-                mUid = TextUtils.isEmpty(mUidView.getText()) ? null : mUidView.getText().toString();
                 if (getActivity() != null) {
                     ((SignInActivity) getActivity()).navigateToLogIn(mUid);
                 }
@@ -204,7 +214,8 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if (requestCode == AppManager.PERMISSION_REQUEST_SEND_SMS && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            mCodeSent = 1000 + (int) (System.currentTimeMillis() % 997);
+            Random random = new Random();
+            mCodeSent = random.nextInt(9000) + 1000;
             String message = getContext() == null ? String.valueOf(mCodeSent) : getContext().getString(R.string.sms_code, mCodeSent);
 
             SmsManager smsManager = SmsManager.getDefault();
@@ -213,7 +224,6 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                 Log.i(LOG_TAG, "sendTextMessage " + mUid + ": " + message);
             }
             try {
-                mUid = TextUtils.isEmpty(mUidView.getText()) ? null : mUidView.getText().toString();
                 smsManager.sendTextMessage(mUid, null, message, pendingIntent, null);
                 Toast.makeText(getContext(), R.string.sms_reminder, Toast.LENGTH_SHORT).show();
                 enableEnterCodeView();
@@ -251,31 +261,43 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
         op.submit();
     }
 
-    private void enableUidView() {
-        mUidView.setEnabled(true);
-        mSendCodeButton.setVisibility(View.GONE);
-        mCodeView.setVisibility(View.GONE);
-        mSignInButton.setVisibility(View.GONE);
+    private void enableEnterUidView() {
+        if (mState != STATE_ENTER_UID) {
+            mState = STATE_ENTER_UID;
+            mUidView.setEnabled(true);
+            mSendCodeButton.setVisibility(View.GONE);
+            mCodeView.setVisibility(View.GONE);
+            mSignInButton.setVisibility(View.GONE);
+        }
     }
 
     private void enableSendCodeButton() {
-        enableButton(mSendCodeButton, true);
-        mCodeView.setVisibility(View.GONE);
-        mSignInButton.setVisibility(View.GONE);
+        if (mState != STATE_SEND_CODE) {
+            mState = STATE_SEND_CODE;
+            enableButton(mSendCodeButton, true);
+            mCodeView.setVisibility(View.GONE);
+            mSignInButton.setVisibility(View.GONE);
+        }
     }
 
     private void enableEnterCodeView() {
-        mSendCodeButton.setVisibility(View.GONE);
-        mCodeView.setVisibility(View.VISIBLE);
-        mCodeView.requestFocus();
-        mSignInButton.setVisibility(View.GONE);
-        showKeyboard(getActivity(), mCodeView);
+        if (mState != STATE_ENTER_CODE) {
+            mState = STATE_ENTER_CODE;
+            mSendCodeButton.setVisibility(View.GONE);
+            mCodeView.setVisibility(View.VISIBLE);
+            mCodeView.requestFocus();
+            mSignInButton.setVisibility(View.GONE);
+            showKeyboard(getActivity(), mCodeView);
+        }
     }
 
     private void enableSignInButton() {
-        enableButton(mSendCodeButton, false);
-        mCodeView.setVisibility(View.VISIBLE);
-        enableButton(mSignInButton, true);
+        if (mState != STATE_SIGN_IN) {
+            mState = STATE_SIGN_IN;
+            enableButton(mSendCodeButton, false);
+            mCodeView.setVisibility(View.VISIBLE);
+            enableButton(mSignInButton, true);
+        }
     }
 
     private void enableButton(Button button, Boolean enabled) {

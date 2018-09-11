@@ -5,6 +5,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.elmclass.elmclass.operation.SignInResult;
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import static com.elmclass.elmclass.manager.PersistenceManager.KEY_EXPIRATION;
 import static com.elmclass.elmclass.manager.PersistenceManager.KEY_UID;
@@ -17,6 +24,7 @@ import static com.elmclass.elmclass.manager.PersistenceManager.KEY_USER_TOKEN;
 
 public class UserManager {
     public static int MIN_UID_LENGTH = 10;
+    private static final Set<String> UID_COUNTRY_CODES = new HashSet<>(Arrays.asList("US","CN"));
 
     private SharedPreferences mPersistenceStore;
     private String mUid;
@@ -68,5 +76,26 @@ public class UserManager {
     void logout() {
         mUserToken = "";
         PersistenceManager.setString(mPersistenceStore, KEY_USER_TOKEN, "");
+    }
+
+    public static String parsePhoneNumber(String contact) {
+        PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
+        Phonenumber.PhoneNumber phoneNumber = null;
+        boolean isValid = false;
+        PhoneNumberUtil.PhoneNumberType isMobile = null;
+        for (String isoCode : UID_COUNTRY_CODES) {
+            try {
+                phoneNumber = phoneNumberUtil.parse(contact, isoCode);
+                isValid = phoneNumberUtil.isValidNumber(phoneNumber);
+                isMobile = phoneNumberUtil.getNumberType(phoneNumber);
+            } catch (NumberParseException | NullPointerException e) {
+                e.printStackTrace();
+            }
+
+            if (isValid && (PhoneNumberUtil.PhoneNumberType.MOBILE == isMobile || PhoneNumberUtil.PhoneNumberType.FIXED_LINE_OR_MOBILE == isMobile)) {
+                return phoneNumberUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.E164).substring(1);
+            }
+        }
+        return null;
     }
 }

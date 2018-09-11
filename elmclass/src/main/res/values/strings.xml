@@ -29,7 +29,7 @@
     <string name="password">Enter password</string>
     <string name="forgot_password">Forgot password？</string>
     <string name="invalid_code">Invalid verification code</string>
-    <string name="invalid_uid">Please enter a valid phone number</string>
+    <string name="invalid_uid">Invalid phone number</string>
     <string name="sms_code">ElmClass: %d</string>
     <string name="sms_reminder">Please wait and check text message for verification code.</string>
     <string name="sms_failure">Unable to send text message. Please verify the phone number.</string>
@@ -39,7 +39,7 @@
     <string name="json_exception">System error: Invalid data format</string>
     <string name="empty_response">System error: Empty response</string>
     <string name="rc_101">System error: Wrong request</string>
-    <string name="rc_107">Phone number has been taken by an existing user</string>
+    <string name="rc_107">Phone number has been taken。 Try to login with password.</string>
     <string name="rc_109">Password mismatch</string>
 
     <!-- webview -->

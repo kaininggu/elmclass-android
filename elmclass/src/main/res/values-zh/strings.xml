@@ -32,7 +32,7 @@
     <string name="invalid_code">验证码错误</string>
     <string name="password">输入密码</string>
     <string name="forgot_password">忘记密码了？</string>
-    <string name="invalid_uid">请输入有效电话</string>
+    <string name="invalid_uid">无效电话号码</string>
     <string name="sms_code">榆树课堂: %d</string>
     <string name="sms_reminder">请稍候短信验证码</string>
     <string name="sms_failure">无法送短信，请检查电话号码</string>
@@ -42,7 +42,7 @@
     <string name="json_exception">系统响应数据格式错误</string>
     <string name="empty_response">系统响应错误</string>
     <string name="rc_101">系统参数错误</string>
-    <string name="rc_107">手机号码已占用</string>
+    <string name="rc_107">手机号码已占用,试用密码登录</string>
     <string name="rc_109">密码不匹配</string>
 
     <!-- webview -->
