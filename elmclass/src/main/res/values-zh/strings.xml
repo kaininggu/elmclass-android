@@ -25,7 +25,7 @@
     <string name="log_in_title">用户登录</string>
     <string name="log_in_link">已有帐号? 点击此处登录</string>
     <string name="log_in">登录</string>
-    <string name="phone_permit">%s请求授权读手机号，以便识别用户。</string>
+    <!--<string name="phone_permit">%s请求授权读手机号，以便识别用户。</string>-->
     <string name="uid_hint">输入手机号码</string>
     <string name="enter_code">输入短信验证码</string>
     <string name="send_code">申请短信验证码</string>
