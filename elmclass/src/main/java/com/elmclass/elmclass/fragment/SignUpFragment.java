@@ -189,7 +189,7 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.log_in:
                 if (getActivity() != null) {
-                    ((SignInActivity) getActivity()).navigateToLogIn(mUid);
+                    ((SignInActivity) getActivity()).navigateToLogIn(TextUtils.isEmpty(mUidView.getText()) ? "" : mUidView.getText().toString());
                 }
                 break;
         }

@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.elmclass.elmclass.R;
 import com.elmclass.elmclass.activity.SignInActivity;
@@ -67,7 +68,7 @@ public class LogInFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (TextUtils.isEmpty(s) || s.length() < UserManager.MIN_UID_LENGTH) {
-                    enableUidView();
+                    enableEnterUidView();
                 } else {
                     enablePasswordView();
                     mUidView.setSelection(s.length());
@@ -113,6 +114,7 @@ public class LogInFragment extends Fragment implements View.OnClickListener {
 
         if (!TextUtils.isEmpty(mUid)) {
             mUidView.setText(mUid);
+            mPasswordView.requestFocus();
         }
         return top;
     }
@@ -181,11 +183,27 @@ public class LogInFragment extends Fragment implements View.OnClickListener {
 
     private void logIn() {
         AppManager.hideKeyboard(getContext(), mSignInContainer);
+
+        if (TextUtils.isEmpty(mUidView.getText())) {
+            mUid = null;
+        } else {
+            mUid = UserManager.parsePhoneNumber(mUidView.getText().toString());
+        }
+        if (mUid == null) {
+            Toast.makeText(getContext(), R.string.invalid_uid, Toast.LENGTH_SHORT).show();
+            enableEnterUidView();
+            return;
+        }
+
+        String password = TextUtils.isEmpty(mPasswordView.getText()) ? null : mPasswordView.getText().toString();
+        if (password == null) {
+            Toast.makeText(getContext(), R.string.password, Toast.LENGTH_SHORT).show();
+            enableEnterUidView();
+            return;
+        }
+
         mSignInContainer.setVisibility(View.GONE);
         mSpinner.setVisibility(View.VISIBLE);
-
-        mUid = TextUtils.isEmpty(mUidView.getText()) ? null : mUidView.getText().toString();
-        String password = TextUtils.isEmpty(mPasswordView.getText()) ? null : mPasswordView.getText().toString();
 
         // Save the current sign in data
         UserManager userManager = AppManager.getInstance().getSessionData().getUserManager();
@@ -196,9 +214,9 @@ public class LogInFragment extends Fragment implements View.OnClickListener {
         op.submit();
     }
 
-    private void enableUidView() {
+    private void enableEnterUidView() {
         mUidView.setEnabled(true);
-        mPasswordView.setVisibility(View.GONE);
+//        mPasswordView.setVisibility(View.GONE);
         mLogInButton.setVisibility(View.GONE);
     }
 
