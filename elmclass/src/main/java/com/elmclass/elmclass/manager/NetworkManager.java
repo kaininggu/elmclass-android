@@ -33,7 +33,7 @@ import javax.net.ssl.TrustManagerFactory;
  */
 
 public class NetworkManager {
-    private static final int MY_SOCKET_TIMEOUT_MS = 60000;
+    private static final int MY_SOCKET_TIMEOUT_MS = 15000;
     private static final String LOG_TAG = NetworkManager.class.getName();
 
     // urls
@@ -110,8 +110,8 @@ public class NetworkManager {
         mAppContext = appContext;
 
         // Creates a default worker pool and calls {@link RequestQueue#start()} on it.
-//        mRequestQueue = Volley.newRequestQueue(appContext);
-        mRequestQueue = Volley.newRequestQueue(mAppContext, new HurlStack(null, newSslSocketFactory()));
+        mRequestQueue = Volley.newRequestQueue(appContext);
+//        mRequestQueue = Volley.newRequestQueue(mAppContext, new HurlStack(null, newSslSocketFactory()));
         mRetryPolicy = new DefaultRetryPolicy(MY_SOCKET_TIMEOUT_MS, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         mGson = new Gson();
     }
@@ -127,7 +127,7 @@ public class NetworkManager {
             try {
                 // Initialize the keystore with the provided trusted certificates
                 // Provide the password of the keystore
-                keyStore.load(in, "Stage2@qa".toCharArray());
+                keyStore.load(in, "changeme".toCharArray());
             } finally {
                 in.close();
             }

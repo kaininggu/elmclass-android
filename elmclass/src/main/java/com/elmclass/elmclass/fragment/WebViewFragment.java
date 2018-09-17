@@ -117,6 +117,8 @@ public class WebViewFragment extends Fragment {
 
         // Enable cookie by not clearCache nor clearHistory
 
+        settings.setUserAgentString(AppManager.USER_AGENT);
+
         // enable JavaScript
         settings.setJavaScriptEnabled(true);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);

@@ -6,10 +6,12 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.elmclass.elmclass.manager.AppManager;
 import com.elmclass.elmclass.manager.NetworkManager;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -38,6 +40,16 @@ public abstract class BaseOperation {
 
         StringRequest request = new StringRequest(method, url, onResult(), onError()) {
             @Override
+            public Map<String, String> getHeaders(){
+                if (AppManager.DEBUG) {
+                    Log.i(LOG_TAG, "USER_AGENT=" + AppManager.USER_AGENT);
+                }
+                Map<String, String> headers = new HashMap<>();
+                headers.put("User-agent", AppManager.USER_AGENT);
+                return headers;
+            }
+
+            @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = mRequest.getParams();
                 if (!TextUtils.isEmpty(AppManager.VERSION_NAME)) {
@@ -60,7 +72,13 @@ public abstract class BaseOperation {
 
     void logError(OperationError error, String message) {
         if (AppManager.DEBUG) {
-            Log.w(LOG_TAG, "Response " + mRequestId + ": Error " + message + ": " + error.toString());
+            Log.w(LOG_TAG, "Response " + mRequestId + ": " + (error == null ? message : error.toString()));
+        }
+    }
+
+    void logError(VolleyError error) {
+        if (AppManager.DEBUG) {
+            Log.w(LOG_TAG, "Response " + mRequestId + ": VolleyError: " + error.getMessage());
         }
     }
 }

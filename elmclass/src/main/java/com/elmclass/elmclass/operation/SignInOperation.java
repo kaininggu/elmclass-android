@@ -42,7 +42,7 @@ public class SignInOperation extends BaseOperation {
                         EventBus.getDefault().post(new SignInResponseEvent(new OperationError(OperationError.RC_EMPTY_RESPONSE, "Empty response")));
                     }
                 } catch (JsonParseException ex) {
-                    logError(null, "JSON exception");
+                    logError(null, ex.getMessage());
                     EventBus.getDefault().post(new SignInResponseEvent(new OperationError(OperationError.RC_JSON_EXCEPTION, "JSON exception")));
                 }
             }
@@ -53,8 +53,8 @@ public class SignInOperation extends BaseOperation {
         return new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                logError(error);
                 OperationError oe = new OperationError(error);
-                logError(oe, "Network error");
                 EventBus.getDefault().post(new SignInResponseEvent(oe));
             }
         };

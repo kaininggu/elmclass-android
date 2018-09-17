@@ -20,11 +20,12 @@ public class OperationError {
 
     OperationError(@Nullable VolleyError error) {
         if (error != null) {
+            mMessage = error.getMessage();
             if (error.networkResponse != null) {
                 mapErrorCode(error.networkResponse.statusCode, "");
             }
         }
-        if (mMessageId == 0) {
+        if (mMessageId == 0 && mMessage == null) {
             mMessageId = R.string.unknown_error;
         }
     }
