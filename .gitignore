@@ -15,8 +15,6 @@ com_crashlytics_export_strings.xml
 .ruby-version
 captures
 /libs
-elmclass/src/main/res/raw/keystore.pkcs12
-elmclass/src/main/res/raw/ca.crt
 
 #Cucumber files
 elmclass/src/cucumber/Logs/log*.txt
@@ -29,3 +27,8 @@ deviceinfo.json
 #Appium
 elmclass/src/cucumber/features/support/appium.txt
 elmclass/src/cucumber/features/support/appium_override.txt
+
+elmclass/src/main/res/raw/keystore.*
+elmclass/src/main/res/raw/*.crt
+elmclass/src/main/res/raw/*.pem
+elmclass/src/main/res/xml/network_security_config.xml

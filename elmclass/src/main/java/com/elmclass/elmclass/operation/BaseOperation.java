@@ -2,7 +2,6 @@ package com.elmclass.elmclass.operation;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.volley.Response;
@@ -51,11 +50,7 @@ public abstract class BaseOperation {
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = mRequest.getParams();
-                if (!TextUtils.isEmpty(AppManager.VERSION_NAME)) {
-                    params.put("ver", AppManager.VERSION_NAME);
-                }
-                return params;
+                return mRequest.getParams();
             }
         };
         if (AppManager.DEBUG) {

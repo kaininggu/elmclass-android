@@ -20,10 +20,13 @@ import com.google.gson.Gson;
 
 import java.io.InputStream;
 import java.lang.reflect.Type;
+import java.security.KeyManagementException;
 import java.security.KeyStore;
+import java.security.NoSuchAlgorithmException;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 
 /**
@@ -39,7 +42,6 @@ public class NetworkManager {
     // urls
     static final String BASE_URL = "http://www.elmclass.com/v2/";
     public static final String ENDPOINT_USERS = NetworkManager.BASE_URL + "elm/signup";
-//    public static final String ENDPOINT_ASSIGNMENT = "https://jbergknoff.github.io/guitar-tuner/";
     public static final String ENDPOINT_ASSIGNMENT = NetworkManager.BASE_URL + "elm/daily";
     public static final String ENDPOINT_SETTING = NetworkManager.BASE_URL + "elm/setup";
     public static final String ENDPOINT_HELP = NetworkManager.BASE_URL + "elm/help";
@@ -109,14 +111,31 @@ public class NetworkManager {
     private NetworkManager(Context appContext) {
         mAppContext = appContext;
 
+//        SSLSocketFactory pinnedSSLSocketFactory = newPinFactory();
+        SSLSocketFactory pinnedSSLSocketFactory = newKeyStoreFactory();
+
         // Creates a default worker pool and calls {@link RequestQueue#start()} on it.
-        mRequestQueue = Volley.newRequestQueue(appContext);
-//        mRequestQueue = Volley.newRequestQueue(mAppContext, new HurlStack(null, newSslSocketFactory()));
+//        mRequestQueue = Volley.newRequestQueue(appContext);
+        mRequestQueue = Volley.newRequestQueue(mAppContext, new HurlStack(null, pinnedSSLSocketFactory));
         mRetryPolicy = new DefaultRetryPolicy(MY_SOCKET_TIMEOUT_MS, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         mGson = new Gson();
     }
 
-    private SSLSocketFactory newSslSocketFactory() {
+    private SSLSocketFactory newPinFactory() {
+        TrustManager tm[] = {new PubKeyManager("jx1myAB/dIlRCC2UpKHT8YgYcYyPX9FtbdxfHqUKZYk=")};
+        try {
+            SSLContext context = SSLContext.getInstance("TLS");
+            context.init(null, tm, null);
+            return context.getSocketFactory();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (KeyManagementException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private SSLSocketFactory newKeyStoreFactory() {
         try {
             // Get an instance of the Bouncy Castle KeyStore format
 //            KeyStore trusted = KeyStore.getInstance(getDefaultType());

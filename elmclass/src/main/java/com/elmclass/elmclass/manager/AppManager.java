@@ -8,6 +8,9 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.elmclass.elmclass.BuildConfig;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Singleton holds a sesson cache
  *
@@ -15,8 +18,7 @@ import com.elmclass.elmclass.BuildConfig;
  */
 
 public class AppManager {
-    public static final String VERSION_NAME = BuildConfig.VERSION_NAME;
-    public static final String USER_AGENT = "ElmClass " + VERSION_NAME + "; " + System.getProperty("http.agent");
+    public static String USER_AGENT;
     public static final int PERMISSION_REQUEST_SEND_SMS = 1;
     public static final int PERMISSION_REQUEST_READ_PHONE_NUMBER = 2;
     public static final int PERMISSIONS_REQUEST_RECORD_AUDIO = 3;
@@ -26,6 +28,13 @@ public class AppManager {
 
     private Context mAppContext;
     private SessionData mSessionData;
+
+    static {
+        String versionName = BuildConfig.VERSION_NAME;
+        Date buildDate = new Date(BuildConfig.TIMESTAMP);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+        USER_AGENT = "ElmClass/" + versionName + " " + simpleDateFormat.format(buildDate) + "; " + System.getProperty("http.agent");
+    }
 
     public static synchronized void setup(Context context) {
         if (sInstance == null) {
