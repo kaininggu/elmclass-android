@@ -43,7 +43,7 @@ public class NetworkManager {
     static final String BASE_URL = "http://www.elmclass.com/v2/";
     public static final String ENDPOINT_USERS = NetworkManager.BASE_URL + "elm/signup";
     public static final String ENDPOINT_ASSIGNMENT = NetworkManager.BASE_URL + "elm/daily";
-    public static final String ENDPOINT_SETTING = NetworkManager.BASE_URL + "elm/setup";
+    public static final String ENDPOINT_SETTINGS = NetworkManager.BASE_URL + "elm/setup";
     public static final String ENDPOINT_HELP = NetworkManager.BASE_URL + "elm/help";
     public static final String ENDPOINT_FORGOT_PASSWORD = NetworkManager.BASE_URL + "elm/opentalk";
     public static final String KEY_URL = "url";

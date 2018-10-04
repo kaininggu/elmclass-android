@@ -1,11 +1,16 @@
 package com.elmclass.elmclass.manager;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
 import com.elmclass.elmclass.fragment.WebViewFragment;
+
+import org.json.JSONObject;
 
 import java.lang.reflect.Method;
 
@@ -55,5 +60,26 @@ public class WebAppInterface {
     @JavascriptInterface
     public void relogin(String placeHolder) {
         mFragment.relogin();
+    }
+
+    @SuppressWarnings("unused")
+    @JavascriptInterface
+    public void openInBrowser(String jsonString) {
+        if (!TextUtils.isEmpty(jsonString)) {
+            try {
+                final JSONObject json = new JSONObject(jsonString);
+                final String endpoint = json.getString("endpoint");
+                if (!TextUtils.isEmpty(endpoint)) {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(NetworkManager.BASE_URL + endpoint));
+                    i.putExtra("target", "ElmClass");
+                    mContext.startActivity(i);
+                }
+            } catch (Exception e) {
+                if (AppManager.DEBUG) {
+                    Log.w(LOG_TAG, e.getMessage());
+                }
+            }
+        }
     }
 }

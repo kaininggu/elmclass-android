@@ -2,6 +2,7 @@ package com.elmclass.elmclass.manager;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -30,10 +31,11 @@ public class AppManager {
     private SessionData mSessionData;
 
     static {
-        String versionName = BuildConfig.VERSION_NAME;
         Date buildDate = new Date(BuildConfig.TIMESTAMP);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-        USER_AGENT = "ElmClass/" + versionName + " " + simpleDateFormat.format(buildDate) + "; " + System.getProperty("http.agent");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyMMdd");
+        USER_AGENT = "ElmClass/" + BuildConfig.VERSION_NAME + "/" + simpleDateFormat.format(buildDate) + "; "
+                + "SDK/" + android.os.Build.VERSION.SDK_INT + "; "
+                + System.getProperty("http.agent");
     }
 
     public static synchronized void setup(Context context) {

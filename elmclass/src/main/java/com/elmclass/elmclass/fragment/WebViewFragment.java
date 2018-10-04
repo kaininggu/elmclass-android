@@ -3,6 +3,8 @@ package com.elmclass.elmclass.fragment;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -85,12 +87,17 @@ public class WebViewFragment extends Fragment {
                     getActivity().onBackPressed();
                 }
                 return true;
+//            case R.id.menu_item_open_in_browser:
+//                Intent i = new Intent(Intent.ACTION_VIEW);
+//                i.setData(Uri.parse(mWebView.getUrl()));
+//                startActivity(i);
+//                return true;
             case R.id.menu_item_assignment:
                 navigateToWebView(NetworkManager.ENDPOINT_ASSIGNMENT);
                 return true;
-            case R.id.menu_item_settings:
-                navigateToWebView(NetworkManager.ENDPOINT_SETTING);
-                return true;
+//            case R.id.menu_item_settings:
+//                navigateToWebView(NetworkManager.ENDPOINT_SETTINGS);
+//                return true;
             case R.id.menu_item_log_out:
                 showLogOutConfirmationDialog();
                 return true;
