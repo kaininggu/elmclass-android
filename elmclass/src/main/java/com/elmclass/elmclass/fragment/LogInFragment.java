@@ -186,21 +186,20 @@ public class LogInFragment extends Fragment implements View.OnClickListener {
 
         if (TextUtils.isEmpty(mUidView.getText())) {
             mUid = null;
-        } else {
-            mUid = UserManager.parsePhoneNumber(mUidView.getText().toString());
-        }
-        if (mUid == null) {
             Toast.makeText(getContext(), R.string.invalid_uid, Toast.LENGTH_SHORT).show();
             enableEnterUidView();
             return;
         }
 
-        String password = TextUtils.isEmpty(mPasswordView.getText()) ? null : mPasswordView.getText().toString();
-        if (password == null) {
+        if (TextUtils.isEmpty(mPasswordView.getText())) {
             Toast.makeText(getContext(), R.string.password, Toast.LENGTH_SHORT).show();
             enableEnterUidView();
             return;
         }
+
+        // Allow non-phone-number login id
+        mUid = mUidView.getText().toString();
+        String password = mPasswordView.getText().toString();
 
         mSignInContainer.setVisibility(View.GONE);
         mSpinner.setVisibility(View.VISIBLE);

@@ -23,7 +23,7 @@ import static com.elmclass.elmclass.manager.PersistenceManager.KEY_USER_TOKEN;
  */
 
 public class UserManager {
-    public static int MIN_UID_LENGTH = 10;
+    public static int MIN_UID_LENGTH = 2;
     private static final Set<String> UID_COUNTRY_CODES = new HashSet<>(Arrays.asList("US","CN"));
 
     private SharedPreferences mPersistenceStore;

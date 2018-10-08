@@ -24,6 +24,8 @@ public class OperationError {
             if (error.networkResponse != null) {
                 mapErrorCode(error.networkResponse.statusCode, "");
             }
+        } else {
+            // most likely the server is not running
         }
         if (mMessageId == 0 && mMessage == null) {
             mMessageId = R.string.unknown_error;
